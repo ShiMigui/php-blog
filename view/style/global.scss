@@ -1,0 +1,118 @@
+$color: #0a0a2d;
+
+* {
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    background-color: white;
+    padding: 10px 50px;
+    height: 60px;
+
+    section {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+
+        &>a {
+            align-items: center;
+            display: flex;
+            height: 40px;
+            gap: 10px;
+        }
+
+        a {
+            color: black;
+        }
+
+        img {
+            height: 100%;
+        }
+
+        ul {
+            li {
+                display: inline-flex;
+                list-style-type: none;
+
+                a {
+                    position: relative;
+                    padding: 10px;
+
+                    &::after {
+                        background-color: $color;
+                        transition-duration: .3s;
+                        position: absolute;
+                        display: block;
+                        content: "";
+                        height: 1px;
+                        bottom: 0;
+                        width: 0;
+                        left: 0;
+                    }
+
+                    &:hover::after,
+                    &.active::after {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        form {
+            display: flex;
+            height: 25px;
+
+            button {
+                width: fit-content;
+            }
+        }
+    }
+}
+
+body {
+    background-color: #ececec;
+}
+
+main {
+    min-height: 100vh;
+    padding: 20px 50px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 1em;
+}
+
+.posts {
+    flex-direction: column;
+    display: flex;
+    gap: 50px;
+
+    .post {
+        color: black;
+
+        img {
+            aspect-ratio: 16 / 9;
+            margin-bottom: 20px;
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+}
