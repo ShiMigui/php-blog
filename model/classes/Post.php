@@ -7,11 +7,14 @@ class Post implements Renderable
     private int $cd;
     private string $name;
     private string $description;
+    private string $text;
     /** @var Tag[] */
     private array $tags;
     private string $image;
 
-    public function __construct(int $cd, string $name, string $description, array $tags)
+    private string $sum;
+
+    public function __construct(int $cd, string $name, string $description, array $tags, string $text = '')
     {
         if ($cd === 0) throw new InvalidArgumentException("The code cannot be zero.");
         $link = POSTS_IMAGES_SRC . $cd . ".jpg";
@@ -21,15 +24,13 @@ class Post implements Renderable
         $this->setDescription($description);
         $this->setTags($tags);
         $this->image = file_exists($link) ? $link : POSTS_IMAGES_SRC . "g800x450.svg";
+        $this->setText($text);
+        $this->updateSum();
     }
 
-    public function render() : string {
-        return "
-            <a href='post.php?cd=$this->cd' class='post'>
-                <img src='$this->image' alt='$this->description'/>
-                <h3>$this->name</h3>
-            </a>
-        ";
+    public function render(): string
+    {
+        return "<a href='post.php?cd=$this->cd' class='post'><img src='$this->image' alt='$this->description'/><h3 class='title'>$this->name</h3></a>";
     }
 
     public function getCd(): int
@@ -57,6 +58,22 @@ class Post implements Renderable
         return $this->image;
     }
 
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function getSum(): string
+    {
+        return $this->sum;
+    }
+
+    public function updateSum()
+    {
+        $reduced_tags = array_reduce($this->tags, fn(string $s, Tag $t) => $s . ' ' . $t->getName(), '');
+        $this->sum = strtolower("$this->name $this->description $this->text $reduced_tags");
+    }
+
     public function setName(string $name): self
     {
         $this->isNotEmpty($name, "The name cannot be empty.");
@@ -73,6 +90,12 @@ class Post implements Renderable
     public function setTags(array $tags): self
     {
         $this->tags = $tags;
+        return $this;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
         return $this;
     }
 
