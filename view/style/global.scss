@@ -101,18 +101,65 @@ h6 {
 }
 
 .posts {
-    flex-direction: column;
-    display: flex;
-    gap: 50px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    display: grid;
+    gap: 10px;
+
+    &.main .post:first-child {
+        grid-column: span 3;
+        grid-row: span 3;
+    }
 
     .post {
+        position: relative;
+        overflow: hidden;
         color: black;
+
+        * {
+            transition: .3s;
+        }
 
         img {
             aspect-ratio: 16 / 9;
-            margin-bottom: 20px;
             object-fit: cover;
+            height: 100%;
             width: 100%;
         }
+
+        .title {
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            color: white;
+            bottom: 10px;
+            opacity: 0;
+            left: 10px;
+        }
+
+        &:hover {
+            img {
+                filter: brightness(0.4);
+                transform: scale(1.1);
+            }
+
+            .title {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+#post-section {
+    margin-inline: auto;
+    width: 60%;
+
+    #post-banner {
+        margin-bottom: 20px;
+        display: block;
+        width: 100%;
+    }
+
+    #post-description {
+        color: gray;
     }
 }
